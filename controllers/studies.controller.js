@@ -63,10 +63,23 @@ function addInvestigator(invToAdd, db, functionToCallOnQueryDone) {
   db.query(addInvestigatorSQL, functionToCallOnQueryDone);
 }
 
+function checkUser(user, db, functionToCallOnQueryDone) {
+  const sentItems = Object.keys(user);
+  const itemsValues = Object.values(user);
+  const userRequest =
+    "select user_role from users where " +
+    sentItems +
+    "= '" +
+    itemsValues +
+    "';";
+  db.query(userRequest, functionToCallOnQueryDone);
+}
+
 module.exports = {
   createStudy,
   listStudies,
   selectStudy,
   updateStudy,
   addInvestigator,
+  checkUser,
 };

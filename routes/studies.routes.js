@@ -51,11 +51,19 @@ router.post("/update-study/:study", (req, res) => {
 
 // Add investigator
 router.post("/add-investigator", (req, res) => {
-  console.log(req.params);
   const investigatorToAdd = req.body;
   studies.addInvestigator(investigatorToAdd, db.connectionDb, (err, result) => {
     if (err) throw err;
     res.json(result);
+  });
+});
+
+router.post("/check-user", (req, res) => {
+  const userToCheck = req.body;
+  studies.checkUser(userToCheck, db.connectionDb, (err, result) => {
+    if (err) throw err;
+    console.log(result[0]);
+    res.json(result[0]);
   });
 });
 

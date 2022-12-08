@@ -34,11 +34,11 @@ router.post("/create-study", (req, res) => {
   });
 });
 
+// Update study
 router.post("/update-study/:study", (req, res) => {
-  console.log(req.params);
   const studyToBeUpdated = req.params.title;
   const itemsToBeUpdated = req.body;
-  updateStudy(
+  studies.updateStudy(
     studyToBeUpdated,
     itemsToBeUpdated,
     db.connectionDb,
@@ -47,6 +47,16 @@ router.post("/update-study/:study", (req, res) => {
       res.json(result);
     }
   );
+});
+
+// Add investigator
+router.post("/add-investigator", (req, res) => {
+  console.log(req.params);
+  const investigatorToAdd = req.body;
+  studies.addInvestigator(investigatorToAdd, db.connectionDb, (err, result) => {
+    if (err) throw err;
+    res.json(result);
+  });
 });
 
 // Add new site/investigator

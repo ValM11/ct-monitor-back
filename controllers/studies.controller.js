@@ -47,4 +47,26 @@ function updateStudy(
   db.query(updateStudySQL, functionToCallOnQueryDone);
 }
 
-module.exports = { createStudy, listStudies, selectStudy, updateStudy };
+function addInvestigator(invToAdd, db, functionToCallOnQueryDone) {
+  const sentItems = Object.keys(invToAdd).join(",");
+  const itemsValues = Object.values(invToAdd)
+    .map((value) => {
+      console.log(typeof value);
+      if (typeof value === "string") {
+        return '"' + value + '"';
+      }
+      return value;
+    })
+    .join(",");
+  const addInvestigatorSQL =
+    "insert into investigators(" + sentItems + ") values(" + itemsValues + ");";
+  db.query(addInvestigatorSQL, functionToCallOnQueryDone);
+}
+
+module.exports = {
+  createStudy,
+  listStudies,
+  selectStudy,
+  updateStudy,
+  addInvestigator,
+};

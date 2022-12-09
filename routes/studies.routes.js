@@ -12,6 +12,7 @@ routerS.get("/studies-codes", (req, res) => {
   studies.listStudies(db.connectionDb, (err, result) => {
     if (err) throw err;
     res.json(result);
+    console.log(result);
   });
 });
 
@@ -52,13 +53,14 @@ routerS.post("/update-study/:study", (req, res) => {
 // Add investigator
 routerS.post("/add-investigator", (req, res) => {
   const investigatorToAdd = req.body;
+  studies.addInvInUsers(investigatorToAdd, db.connectionDb, (err, result) => {
+    if (err) throw err;
+    res.json(result);
+  });
   studies.addInvestigator(investigatorToAdd, db.connectionDb, (err, result) => {
     if (err) throw err;
     res.json(result);
   });
 });
-
-// Add new site/investigator
-// router.post("/add-investigator", studies.addInvestigator);
 
 module.exports = routerS;

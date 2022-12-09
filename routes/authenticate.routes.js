@@ -13,7 +13,7 @@ routerA.post("/check-user-role", (req, res) => {
     if (err) throw err;
     var userRole = result[0];
     var userToken = authenticate.generateToken(userRole);
-    console.log({ ...userRole, ...userToken });
+    // console.log({ ...userRole, ...userToken });
     res.json({ ...userRole, ...userToken });
   });
 });

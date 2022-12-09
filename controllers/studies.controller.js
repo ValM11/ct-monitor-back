@@ -63,10 +63,20 @@ function addInvestigator(invToAdd, db, functionToCallOnQueryDone) {
   db.query(addInvestigatorSQL, functionToCallOnQueryDone);
 }
 
+function addInvInUsers(invToAdd, db, functionToCallOnQueryDone) {
+  const itemsValues = invToAdd.email;
+  const addInvestigatorSQL =
+    "insert into users (email, passhash, user_role) values('" +
+    itemsValues +
+    "', 'InvPassword', 'INV');";
+  db.query(addInvestigatorSQL, functionToCallOnQueryDone);
+}
+
 module.exports = {
   createStudy,
   listStudies,
   selectStudy,
   updateStudy,
   addInvestigator,
+  addInvInUsers,
 };

@@ -1,14 +1,14 @@
 const express = require("express");
 const app = express();
 const db = require("../connectDb.js");
-const router = express.Router();
+const routerS = express.Router();
 const studies = require("../controllers/studies.controller.js");
 
 app.use(express.json());
 app.use(express.text());
 
 // Get all studies codes
-router.get("/studies-codes", (req, res) => {
+routerS.get("/studies-codes", (req, res) => {
   studies.listStudies(db.connectionDb, (err, result) => {
     if (err) throw err;
     res.json(result);
@@ -16,7 +16,7 @@ router.get("/studies-codes", (req, res) => {
 });
 
 // Get information for specific study
-router.get("/study-info/:study", (req, res) => {
+routerS.get("/study-info/:study", (req, res) => {
   const selectedStudy = req.params.study;
   console.log(selectedStudy);
   studies.selectStudy(selectedStudy, db.connectionDb, (err, result) => {
@@ -26,7 +26,7 @@ router.get("/study-info/:study", (req, res) => {
 });
 
 // Create new study
-router.post("/create-study", (req, res) => {
+routerS.post("/create-study", (req, res) => {
   const studyToAdd = req.body;
   studies.createStudy(studyToAdd, db.connectionDb, (err, result) => {
     if (err) throw err;
@@ -35,7 +35,7 @@ router.post("/create-study", (req, res) => {
 });
 
 // Update study
-router.post("/update-study/:study", (req, res) => {
+routerS.post("/update-study/:study", (req, res) => {
   const studyToBeUpdated = req.params.title;
   const itemsToBeUpdated = req.body;
   studies.updateStudy(
@@ -50,7 +50,7 @@ router.post("/update-study/:study", (req, res) => {
 });
 
 // Add investigator
-router.post("/add-investigator", (req, res) => {
+routerS.post("/add-investigator", (req, res) => {
   const investigatorToAdd = req.body;
   studies.addInvestigator(investigatorToAdd, db.connectionDb, (err, result) => {
     if (err) throw err;
@@ -58,16 +58,7 @@ router.post("/add-investigator", (req, res) => {
   });
 });
 
-router.post("/check-user", (req, res) => {
-  const userToCheck = req.body;
-  studies.checkUser(userToCheck, db.connectionDb, (err, result) => {
-    if (err) throw err;
-    console.log(result[0]);
-    res.json(result[0]);
-  });
-});
-
 // Add new site/investigator
 // router.post("/add-investigator", studies.addInvestigator);
 
-module.exports = router;
+module.exports = routerS;

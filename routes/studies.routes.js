@@ -10,9 +10,9 @@ app.use(express.text());
 // Get all studies codes
 routerS.get("/studies-codes", (req, res) => {
   studies.listStudies(db.connectionDb, (err, result) => {
-    if (err) throw err;
-    res.json(result);
-    console.log(result);
+    if (err) {
+      res.status(400).send("Error in studies recovery");
+    } else res.json(result);
   });
 });
 
@@ -21,8 +21,9 @@ routerS.get("/study-info/:study", (req, res) => {
   const selectedStudy = req.params.study;
   console.log(selectedStudy);
   studies.selectStudy(selectedStudy, db.connectionDb, (err, result) => {
-    if (err) throw err;
-    res.json(result);
+    if (err) {
+      res.status(400).send({ message: "Error in study recovery" });
+    } else res.json(result);
   });
 });
 
@@ -30,8 +31,11 @@ routerS.get("/study-info/:study", (req, res) => {
 routerS.post("/create-study", (req, res) => {
   const studyToAdd = req.body;
   studies.createStudy(studyToAdd, db.connectionDb, (err, result) => {
-    if (err) throw err;
-    res.json(result);
+    if (err) {
+      res.status(400).send({
+        message: "Error loading study data. Study probably already exists",
+      });
+    } else res.json(result);
   });
 });
 
@@ -44,8 +48,9 @@ routerS.post("/update-study/:study", (req, res) => {
     itemsToBeUpdated,
     db.connectionDb,
     (err, result) => {
-      if (err) throw err;
-      res.json(result);
+      if (err) {
+        res.status(400).send("Error updating study");
+      } else res.json(result);
     }
   );
 });
@@ -54,12 +59,22 @@ routerS.post("/update-study/:study", (req, res) => {
 routerS.post("/add-investigator", (req, res) => {
   const investigatorToAdd = req.body;
   studies.addInvInUsers(investigatorToAdd, db.connectionDb, (err, result) => {
-    if (err) throw err;
-    res.json(result);
+    if (err) {
+      res
+        .status(400)
+        .send(
+          "Unable to add investigator in users list. Check if already exists."
+        );
+    } else res.json(result);
   });
   studies.addInvestigator(investigatorToAdd, db.connectionDb, (err, result) => {
-    if (err) throw err;
-    res.json(result);
+    if (err) {
+      res
+        .status(400)
+        .send(
+          "Unable to add investigator for this study. Check if already exists"
+        );
+    } else res.json(result);
   });
 });
 

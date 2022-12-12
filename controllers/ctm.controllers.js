@@ -41,7 +41,7 @@ function updateStudy(
   const updateStudySQL =
     "update studies set " +
     itemsInQuery +
-    " where title = '" +
+    " where study_id = '" +
     studyToUpdate +
     "';";
   db.query(updateStudySQL, functionToCallOnQueryDone);

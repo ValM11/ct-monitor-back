@@ -9,18 +9,6 @@ const restrictedCTMUrl = [
 const restrictedInvUrl = [];
 var acceptedToken = [];
 
-// function checkUserRole(user, db, functionToCallOnQueryDone) {
-//   const sentItems = Object.keys(user);
-//   const itemsValues = Object.values(user);
-//   const userRequest =
-//     "select user_role from users where " +
-//     sentItems +
-//     "= '" +
-//     itemsValues +
-//     "';";
-//   db.query(userRequest, functionToCallOnQueryDone);
-// }
-
 function checkUserRole(user, db, functionToCallOnQueryDone) {
   const sentItems = Object.entries(user);
   const userCondition = sentItems
@@ -59,8 +47,7 @@ function firewall(req, res, next) {
     .concat(restrictedInvUrl)
     .includes(req.url);
   if (!(CTMFirewall | InvFirewall | globalFirewall | publicUrl)) {
-    res.status(403);
-    res.send("Not allowed to use this functionality");
+    res.status(403).send({ message: "Not allowed to use this functionality" });
   } else {
     next();
   }

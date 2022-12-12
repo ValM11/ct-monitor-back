@@ -12,10 +12,10 @@ routerA.post("/check-user-role", (req, res) => {
   authenticate.checkUserRole(userToCheck, db.connectionDb, (err, result) => {
     var userRole = result[0];
     if (userRole === undefined) {
-      res.status(403).send({ message: "Unauthorized user" });
+      res.statusMessage = "Wrong Login and/or password. Try again...";
+      res.status(403).end();
     } else {
       var userToken = authenticate.generateToken(userRole);
-      console.log({ ...userRole, ...userToken });
       res.json({ ...userRole, ...userToken });
     }
   });

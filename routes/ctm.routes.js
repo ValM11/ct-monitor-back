@@ -1,14 +1,14 @@
 const express = require("express");
 const app = express();
 const db = require("../connectDb.js");
-const routerS = express.Router();
-const studies = require("../controllers/studies.controller.js");
+const routerC = express.Router();
+const studies = require("../controllers/ctm.controllers.js");
 
 app.use(express.json());
 app.use(express.text());
 
 // Get all studies codes
-routerS.get("/studies-codes", (req, res) => {
+routerC.get("/studies-codes", (req, res) => {
   studies.listStudies(db.connectionDb, (err, result) => {
     if (err) {
       res.status(400).send("Error in studies recovery");
@@ -17,7 +17,7 @@ routerS.get("/studies-codes", (req, res) => {
 });
 
 // Get information for specific study
-routerS.get("/study-info/:study", (req, res) => {
+routerC.get("/study-info/:study", (req, res) => {
   const selectedStudy = req.params.study;
   console.log(selectedStudy);
   studies.selectStudy(selectedStudy, db.connectionDb, (err, result) => {
@@ -28,7 +28,7 @@ routerS.get("/study-info/:study", (req, res) => {
 });
 
 // Create new study
-routerS.post("/create-study", (req, res) => {
+routerC.post("/create-study", (req, res) => {
   const studyToAdd = req.body;
   studies.createStudy(studyToAdd, db.connectionDb, (err, result) => {
     if (err) {
@@ -40,7 +40,7 @@ routerS.post("/create-study", (req, res) => {
 });
 
 // Update study
-routerS.post("/update-study/:study", (req, res) => {
+routerC.post("/update-study/:study", (req, res) => {
   const studyToBeUpdated = req.params.title;
   const itemsToBeUpdated = req.body;
   studies.updateStudy(
@@ -56,7 +56,7 @@ routerS.post("/update-study/:study", (req, res) => {
 });
 
 // Add investigator
-routerS.post("/add-investigator", (req, res) => {
+routerC.post("/add-investigator", (req, res) => {
   const investigatorToAdd = req.body;
   studies.addInvInUsers(investigatorToAdd, db.connectionDb, (err, result) => {
     if (err) {
@@ -78,4 +78,4 @@ routerS.post("/add-investigator", (req, res) => {
   });
 });
 
-module.exports = routerS;
+module.exports = routerC;

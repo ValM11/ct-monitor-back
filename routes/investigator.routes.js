@@ -8,8 +8,8 @@ app.use(express.json());
 app.use(express.text());
 
 // Get all studies for invetigator
-routerI.get("/studies-inv/:inv", (req, res) => {
-  const connectedInv = req.params.inv;
+routerI.get("/studies-inv", (req, res) => {
+  const connectedInv = header.inv;
   inv.listInvStudies(connectedInv, db.connectionDb, (err, result) => {
     if (err) {
       res.statusMessage = "Error in studies recovery";

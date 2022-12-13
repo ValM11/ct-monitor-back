@@ -6,7 +6,13 @@ const restrictedCTMUrl = [
   "/update-study/:study",
   "/add-investigator",
 ];
-const restrictedInvUrl = [];
+const restrictedInvUrl = [
+  "/studies-inv",
+  "/patients-study/:study/:inv",
+  "/patients-info/:table/:patient/:visit",
+  "/add-patient-info/:table",
+  "/update-patient-info/:table/:patient/:visit",
+];
 var acceptedToken = [];
 
 function checkUserRole(user, db, functionToCallOnQueryDone) {
@@ -47,7 +53,8 @@ function firewall(req, res, next) {
     .concat(restrictedInvUrl)
     .includes(req.url);
   if (!(CTMFirewall | InvFirewall | globalFirewall | publicUrl)) {
-    res.status(403).send({ message: "Not allowed to use this functionality" });
+    res.statusMessage = "Not allowed to use this functionality";
+    res.status(403).end();
   } else {
     next();
   }

@@ -5,9 +5,11 @@ const restrictedCTMUrl = [
   "/create-study",
   "/update-study/:study",
   "/add-investigator",
+  "/link-investigator-study",
 ];
 const restrictedInvUrl = [
   "/studies-inv",
+  "/inv-info",
   "/patients-study/:study/:inv",
   "/patients-info/:table/:patient/:visit",
   "/add-patient-info/:table",

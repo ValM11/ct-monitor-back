@@ -11,7 +11,8 @@ app.use(express.text());
 routerC.get("/studies-codes", (req, res) => {
   studies.listStudies(db.connectionDb, (err, result) => {
     if (err) {
-      res.status(400).send("Error in studies recovery");
+      res.statusMessage = "Error in studies recovery";
+      res.status(400).end();
     } else res.json(result);
   });
 });
@@ -22,7 +23,8 @@ routerC.get("/study-info/:study", (req, res) => {
   console.log(selectedStudy);
   studies.selectStudy(selectedStudy, db.connectionDb, (err, result) => {
     if (err) {
-      res.status(400).send({ message: "Error in study recovery" });
+      res.statusMessage = "Error in study recovery";
+      res.status(400).end();
     } else res.json(result);
   });
 });
@@ -32,24 +34,27 @@ routerC.post("/create-study", (req, res) => {
   const studyToAdd = req.body;
   studies.createStudy(studyToAdd, db.connectionDb, (err, result) => {
     if (err) {
-      res.status(400).send({
-        message: "Error loading study data. Study probably already exists",
-      });
+      res.statusMessage =
+        "Error loading study data. Study probably already exists";
+      res.status(400).end();
     } else res.json(result);
   });
 });
 
 // Update study
 routerC.post("/update-study/:study", (req, res) => {
-  const studyToBeUpdated = req.params.title;
+  const studyToBeUpdated = req.params.study;
   const itemsToBeUpdated = req.body;
+  console.log(studyToBeUpdated);
+  console.log(itemsToBeUpdated);
   studies.updateStudy(
     studyToBeUpdated,
     itemsToBeUpdated,
     db.connectionDb,
     (err, result) => {
       if (err) {
-        res.status(400).send("Error updating study");
+        res.statusMessage = "Error updating study";
+        res.status(400).end();
       } else res.json(result);
     }
   );
@@ -60,20 +65,32 @@ routerC.post("/add-investigator", (req, res) => {
   const investigatorToAdd = req.body;
   studies.addInvInUsers(investigatorToAdd, db.connectionDb, (err, result) => {
     if (err) {
-      res
-        .status(400)
-        .send(
-          "Unable to add investigator in users list. Check if already exists."
-        );
-    } else res.json(result);
+      res.statusMessage =
+        "Unable to add investigator in users list. Check if already exists.";
+      res.status(400).end();
+    } else {
+      studies.addInvestigator(
+        investigatorToAdd,
+        db.connectionDb,
+        (err, result) => {
+          if (err) {
+            res.statusMessage =
+              "Unable to add investigator in the list. Check if already exists";
+            res.status(400).end();
+          } else res.json(result);
+        }
+      );
+    }
   });
-  studies.addInvestigator(investigatorToAdd, db.connectionDb, (err, result) => {
+});
+
+routerC.post("/link-investigator-study", (req, res) => {
+  const investigatorToAdd = req.body;
+  studies.addInvStudyLink(investigatorToAdd, db.connectionDb, (err, result) => {
     if (err) {
-      res
-        .status(400)
-        .send(
-          "Unable to add investigator for this study. Check if already exists"
-        );
+      res.statusMessage =
+        "Unable to add investigator for this study. Check if already exists";
+      res.status(400).end();
     } else res.json(result);
   });
 });

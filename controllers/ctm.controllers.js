@@ -48,10 +48,11 @@ function updateStudy(
 }
 
 function addInvestigator(invToAdd, db, functionToCallOnQueryDone) {
+  let invToAddwoStudy = invToAdd;
+  delete invToAddwoStudy.study_id;
   const sentItems = Object.keys(invToAdd).join(",");
   const itemsValues = Object.values(invToAdd)
     .map((value) => {
-      console.log(typeof value);
       if (typeof value === "string") {
         return '"' + value + '"';
       }
@@ -72,6 +73,15 @@ function addInvInUsers(invToAdd, db, functionToCallOnQueryDone) {
   db.query(addInvestigatorSQL, functionToCallOnQueryDone);
 }
 
+function addInvStudyLink(invToAdd, db, functionToCallOnQueryDone) {
+  const itemsValues = invToAdd.email + "','" + invToAdd.study_id;
+  const addInvestigatorSQL =
+    "insert into link_inv_studies (email, study_id) values('" +
+    itemsValues +
+    "');";
+  db.query(addInvestigatorSQL, functionToCallOnQueryDone);
+}
+
 module.exports = {
   createStudy,
   listStudies,
@@ -79,4 +89,5 @@ module.exports = {
   updateStudy,
   addInvestigator,
   addInvInUsers,
+  addInvStudyLink,
 };

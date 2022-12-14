@@ -6,6 +6,12 @@ function listInvStudies(invEmail, db, functionToCallOnQueryDone) {
   db.query(selectInvStudies, functionToCallOnQueryDone);
 }
 
+function listInvInfos(invEmail, db, functionToCallOnQueryDone) {
+  const selectInvInfos =
+    "select * from investigators where email='" + invEmail + "';";
+  db.query(selectInvInfos, functionToCallOnQueryDone);
+}
+
 function listStudyPatients(study, invEmail, db, functionToCallOnQueryDone) {
   const selectPatients =
     "select * from link_patient_study where study_id = '" +
@@ -81,6 +87,7 @@ function updateInfoPatient(
 
 module.exports = {
   listInvStudies,
+  listInvInfos,
   listStudyPatients,
   listInfoPatients,
   addInfoPatient,

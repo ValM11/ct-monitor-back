@@ -18,6 +18,16 @@ routerI.get("/studies-inv", (req, res) => {
   });
 });
 
+routerI.get("/inv-info", (req, res) => {
+  const connectedInv = header.inv;
+  inv.listInvInfos(connectedInv, db.connectionDb, (err, result) => {
+    if (err) {
+      res.statusMessage = "Error in investigator infos recovery";
+      res.status(400).end();
+    } else res.json(result);
+  });
+});
+
 routerI.get("/patients-study/:study/:inv", (req, res) => {
   const selectedStudy = req.params.study;
   const connectedInv = req.params.inv;

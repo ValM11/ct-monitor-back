@@ -65,6 +65,8 @@ routerI.get("/patients-info/:table/:patient/:visit", (req, res) => {
 routerI.post("/add-patient-info/:table", (req, res) => {
   const tableToFill = req.params.table;
   const patientToAdd = req.body;
+  console.log(tableToFill);
+  console.log(patientToAdd);
   // add check to ensure patient could be added ?!
   inv.addInfoPatient(
     patientToAdd,

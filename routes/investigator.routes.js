@@ -12,6 +12,7 @@ routerI.get("/studies-inv", (req, res) => {
   const connectedInv = header.inv;
   inv.listInvStudies(connectedInv, db.connectionDb, (err, result) => {
     if (err) {
+      console.log(err);
       res.statusMessage = "Error in studies recovery";
       res.status(400).end();
     } else res.json(result);
@@ -22,6 +23,7 @@ routerI.get("/inv-info", (req, res) => {
   const connectedInv = header.inv;
   inv.listInvInfos(connectedInv, db.connectionDb, (err, result) => {
     if (err) {
+      console.log(err);
       res.statusMessage = "Error in investigator infos recovery";
       res.status(400).end();
     } else res.json(result);
@@ -37,6 +39,7 @@ routerI.get("/patients-study/:study/:inv", (req, res) => {
     db.connectionDb,
     (err, result) => {
       if (err) {
+        console.log(err);
         res.statusMessage = "Error in study/patient recovery";
         res.status(400).end();
       } else res.json(result);
@@ -55,6 +58,7 @@ routerI.get("/patients-info/:table/:patient/:visit", (req, res) => {
     db.connectionDb,
     (err, result) => {
       if (err) {
+        console.log(err);
         res.statusMessage = "Error in study/patient/visit recovery";
         res.status(400).end();
       } else res.json(result);
@@ -74,6 +78,7 @@ routerI.post("/add-patient-info/:table", (req, res) => {
     db.connectionDb,
     (err, result) => {
       if (err) {
+        console.log(err);
         res.statusMessage =
           "Error loading patient data. Patient/visit probably already exists";
         res.status(400).end();
@@ -96,6 +101,7 @@ routerI.post("/update-patient-info/:table/:patient/:visit", (req, res) => {
     db.connectionDb,
     (err, result) => {
       if (err) {
+        console.log(err);
         res.statusMessage = "Error updating table/patient/visit";
         res.status(400).end();
       } else res.json(result);

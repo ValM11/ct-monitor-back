@@ -36,7 +36,7 @@ function listInfoPatients(
     patient +
     " and visit = '" +
     visit +
-    "');";
+    "';";
   db.query(selectInfoPatients, functionToCallOnQueryDone);
 }
 

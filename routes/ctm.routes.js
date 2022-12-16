@@ -11,6 +11,7 @@ app.use(express.text());
 routerC.get("/studies-codes", (req, res) => {
   studies.listStudies(db.connectionDb, (err, result) => {
     if (err) {
+      console.log(err);
       res.statusMessage = "Error in studies recovery";
       res.status(400).end();
     } else res.json(result);
@@ -23,6 +24,7 @@ routerC.get("/study-info/:study", (req, res) => {
   console.log(selectedStudy);
   studies.selectStudy(selectedStudy, db.connectionDb, (err, result) => {
     if (err) {
+      console.log(err);
       res.statusMessage = "Error in study recovery";
       res.status(400).end();
     } else res.json(result);
@@ -34,6 +36,7 @@ routerC.post("/create-study", (req, res) => {
   const studyToAdd = req.body;
   studies.createStudy(studyToAdd, db.connectionDb, (err, result) => {
     if (err) {
+      console.log(err);
       res.statusMessage =
         "Error loading study data. Study probably already exists";
       res.status(400).end();
@@ -53,6 +56,7 @@ routerC.post("/update-study/:study", (req, res) => {
     db.connectionDb,
     (err, result) => {
       if (err) {
+        console.log(err);
         res.statusMessage = "Error updating study";
         res.status(400).end();
       } else res.json(result);
@@ -74,6 +78,7 @@ routerC.post("/add-investigator", (req, res) => {
         db.connectionDb,
         (err, result) => {
           if (err) {
+            console.log(err);
             res.statusMessage =
               "Unable to add investigator in the list. Check if already exists";
             res.status(400).end();
@@ -88,6 +93,7 @@ routerC.post("/link-investigator-study", (req, res) => {
   const investigatorToAdd = req.body;
   studies.addInvStudyLink(investigatorToAdd, db.connectionDb, (err, result) => {
     if (err) {
+      console.log(err);
       res.statusMessage =
         "Unable to add investigator for this study. Check if already exists";
       res.status(400).end();
